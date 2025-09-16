@@ -12,9 +12,12 @@ connectDatabase();
 
 app.use(express.json());
 app.use(cors());
+app.use((request, _, next) => {
+  console.log(`${request.method} - ${request.url} - ${request.ip}`);
+  next();
+});
 
 app.use('/booking', bookingRoute);
-app.use('/admin', )
 
 app.get('/', (_, response) => {
   response.end('Home route working');
