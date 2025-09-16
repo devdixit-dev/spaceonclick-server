@@ -3,6 +3,6 @@ import { booking } from '../controllers/booking.controller.js';
 
 const bookingRoute = express.Router();
 
-bookingRoute.post('/booking', booking);
+bookingRoute.post('/', booking);
 
 export default bookingRoute;
