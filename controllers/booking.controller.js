@@ -31,6 +31,14 @@ export const booking = async (request, response) => {
       });
     }
 
+    const bookingExist = await Booking.find({ date, time });
+    if(bookingExist) {
+      return response.status(401).json({
+        success: false,
+        message: 'someone already booked this place at this time'
+      });
+    }
+
     const booking = await Booking.create({
       propertyID: property.propertyID,
       plan, date, time, firstName, lastName,

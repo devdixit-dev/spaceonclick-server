@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
   propertyID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Property'
+    type: String,
+    unique: true
   },
   plan: {
     type: String

@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import connectDatabase from './config/db.config.js';
 import bookingRoute from './routes/booking.route.js';
+import adminRoute from './routes/admin.route.js';
 
 const app = express();
 const port = process.env.PORT || 4040;
@@ -18,6 +19,7 @@ app.use((request, _, next) => {
 });
 
 app.use('/booking', bookingRoute);
+app.use('/admin', adminRoute);
 
 app.get('/', (_, response) => {
   response.end('Home route working');
