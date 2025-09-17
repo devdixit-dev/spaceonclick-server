@@ -31,7 +31,7 @@ export const booking = async (request, response) => {
       });
     }
 
-    const bookingExist = await Booking.find({ date, time });
+    const bookingExist = await Booking.findOne({ date, time });
     if(bookingExist) {
       return response.status(401).json({
         success: false,

@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
   propertyID: {
-    type: String,
-    unique: true
+    type: String
   },
   plan: {
     type: String
