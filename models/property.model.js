@@ -11,7 +11,7 @@ const propertySchema = new mongoose.Schema({
   location: {
     type: String
   },
-  size: {
+  area: {
     type: Number
   },
   price: {
@@ -28,10 +28,7 @@ const propertySchema = new mongoose.Schema({
   amenities: [{
     type: String
   }],
-  features: [{
-    type: String
-  }]
-});
+}, {timestamps: true});
 
 const Property = mongoose.model('Property', propertySchema);
 
