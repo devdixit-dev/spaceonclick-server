@@ -1,3 +1,4 @@
+import Booking from "../models/booking.model.js";
 import Property from "../models/property.model.js";
 import jwt from 'jsonwebtoken';
 
@@ -38,15 +39,34 @@ export const adminLogin = (req, res) => {
   }
 }
 
+export const allBookings = async (req, res) => {
+  try{
+    const bookings = await Booking.find();
+
+    return res.status(200).json({
+      success: true,
+      message: `all bookings fetched. Total boookings ${bookings.length}`,
+      bookings
+    });
+  }
+  catch(err) {
+    console.log(`error in getting all bookings in admin panel - ${err}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
 export const addProperty = async (req, res) => {
   try{
     const { 
-      propertyName, propertyID, location, size, price, 
+      propertyName, propertyID, location, area, price, 
       description, amenities, features 
     } = req.body;
 
     const property = await Property.create({
-      propertyName, propertyID, location, size, price,
+      propertyName, propertyID, location, area, price,
       description, amenities, features
     });
 
@@ -58,6 +78,90 @@ export const addProperty = async (req, res) => {
   }
   catch(err) {
     console.log(`error in adding property - ${err}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
+export const editProperty = async (req, res) => {
+  const id = req.params.id;
+  try{
+    const { 
+      propertyName, location, area, price, 
+      description, amenities
+    } = req.body;
+
+    const property = await Property.findOneAndUpdate({ propertyID: id }, 
+      { propertyName, location, area, price, description, amenities }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'property updated',
+      property
+    });
+  }
+  catch(err) {
+    console.log(`error in editing property - ${err}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
+export const deleteProperty = async (req, res) => {
+  const id = req.params.id;
+  try{
+    const property = await Property.findOneAndDelete({ propertyID: id });
+
+    return res.status(200).json({
+      success: true,
+      message: 'property deleted',
+      property
+    });
+  }
+  catch(err) {
+    console.log(`error in deleting property - ${err}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
+export const changeBookingStatus = async (req, res) => {
+  const id = req.params.id;
+  try{
+    const booking = await Booking.findOneAndUpdate({ propertyID: id }, { status: 'confirmed' });
+
+    return res.status(200).json({
+      success: true,
+      message: 'booking confirmed',
+      booking
+    });
+  }
+  catch(err) {
+    console.log(`error in changing booking status - ${err}`);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
+export const adminLogout = async (req, res) => {
+  try{
+    return res.clearCookie('token')
+    .json({
+      success: true,
+      message: 'admin logout'
+    });
+  }
+  catch(err) {
+    console.log(`error in logout admin - ${err}`);
     return res.status(500).json({
       success: false,
       message: 'Internal server error'
