@@ -13,8 +13,14 @@ const port = process.env.PORT || 4040;
 
 connectDatabase();
 
+app.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}));
+
 app.use(express.json());
-app.use(cors());
+
 app.use((req, _, next) => {
   console.log(`${req.method} - ${req.url} - ${req.ip}`);
   next();
