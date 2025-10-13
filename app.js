@@ -33,7 +33,7 @@ app.get('/', async (req, res) => {
   try {
     const property = await Property.find()
       .lean()
-      .select("-createdAt -updatedAt -_id -__v");
+      .select("-createdAt -updatedAt -__v");
 
     return res.status(200).json({
       success: true,
