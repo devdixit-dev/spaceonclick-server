@@ -4,9 +4,6 @@ const bookingSchema = new mongoose.Schema({
   propertyID: {
     type: String
   },
-  plan: {
-    type: String
-  },
   date: {
     type: String
   },

@@ -57,7 +57,7 @@ export const booking = async (request, response) => {
 
     return response.status(201).json({
       success: true,
-      message: 'Booking confirmed. We will reach you shortly',
+      message: 'Booking confirmed. We will reach you shortly 😀',
       data: booking
     });
   }
