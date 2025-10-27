@@ -1,6 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
+import path from 'path'
 
 import connectDatabase from './config/db.config.js';
 import bookingRoute from './routes/booking.route.js';
@@ -12,6 +13,8 @@ const app = express();
 const port = process.env.PORT || 4040;
 
 connectDatabase();
+
+// app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(cors({
   origin: 'http://localhost:8080',
