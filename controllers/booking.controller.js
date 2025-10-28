@@ -50,7 +50,7 @@ export const booking = async (request, response) => {
     }
 
     const booking = await Booking.create({
-      propertyID: property.propertyID,
+      propertyID: property._id,
       plan, date, time, firstName, lastName,
       email, contactNumber, companyName, details
     });

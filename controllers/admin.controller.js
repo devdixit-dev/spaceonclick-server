@@ -41,11 +41,18 @@ export const adminLogin = (req, res) => {
 
 export const allBookings = async (req, res) => {
   try{
-    const bookings = await Booking.find();
+    const bookings = await Booking.find().populate('propertyID')
+
+    if(!bookings) {
+      return res.status(404).json({
+        success: false,
+        message: 'Booking not found or removed already'
+      });
+    }
 
     return res.status(200).json({
       success: true,
-      message: `all bookings fetched. Total boookings ${bookings.length}`,
+      length: bookings.length,
       bookings
     });
   }

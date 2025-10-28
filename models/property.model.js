@@ -5,9 +5,6 @@ const propertySchema = new mongoose.Schema({
     type: String,
     minLength: [4, 'Property name should at least 4 character long']
   },
-  propertyID: {
-    type: String
-  },
   location: {
     type: String
   },

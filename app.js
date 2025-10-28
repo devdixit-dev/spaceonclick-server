@@ -17,7 +17,7 @@ connectDatabase();
 // app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: 'http://localhost:4040',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));

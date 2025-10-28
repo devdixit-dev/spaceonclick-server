@@ -5,7 +5,7 @@ const adminRoute = express.Router();
 
 adminRoute.post('/login', adminLogin);
 
-adminRoute.post('/bookings', allBookings);
+adminRoute.get('/bookings', allBookings);
 
 adminRoute.post('/add', addProperty);
 

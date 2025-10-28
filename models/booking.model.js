@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
-  propertyID: {
-    type: String
+  propertyID: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Property"
   },
   date: {
     type: String
