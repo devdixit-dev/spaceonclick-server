@@ -67,7 +67,14 @@ export const allBookings = async (req, res) => {
 
 export const addProperty = async (req, res) => {
   try{
-    const { 
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded"
+      });
+    }
+
+    const {
       propertyName, propertyID, location, area, price, 
       description, amenities, features 
     } = req.body;
