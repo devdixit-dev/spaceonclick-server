@@ -8,6 +8,10 @@ const propertySchema = new mongoose.Schema({
   location: {
     type: String
   },
+  images: [{
+    type: String,
+    required: true
+  }],
   area: {
     type: Number
   },

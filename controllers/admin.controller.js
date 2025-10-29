@@ -4,11 +4,11 @@ import jwt from 'jsonwebtoken';
 
 export const adminLogin = (req, res) => {
   const { email, password } = req.body;
-  try{
+  try {
     const matchEmail = email === process.env.ADMIN_EMAIL;
     const matchPass = password === process.env.ADMIN_PASS;
 
-    if(!matchEmail && !matchPass) {
+    if (!matchEmail && !matchPass) {
       return res.status(401).json({
         success: false,
         message: 'Incorrect email or password'
@@ -20,17 +20,17 @@ export const adminLogin = (req, res) => {
     });
 
     return res
-    .cookie('token', decodeJwt, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 30 * 60 * 1000
-    })
-    .json({
-      success: true,
-      message: 'admin login 🎉'
-    });
+      .cookie('token', decodeJwt, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * 60 * 1000
+      })
+      .json({
+        success: true,
+        message: 'admin login 🎉'
+      });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in admin login - ${err}`);
     return res.status(500).json({
       success: false,
@@ -40,10 +40,10 @@ export const adminLogin = (req, res) => {
 }
 
 export const allBookings = async (req, res) => {
-  try{
+  try {
     const bookings = await Booking.find().populate('propertyID')
 
-    if(!bookings) {
+    if (!bookings) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found or removed already'
@@ -56,7 +56,7 @@ export const allBookings = async (req, res) => {
       bookings
     });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in getting all bookings in admin panel - ${err}`);
     return res.status(500).json({
       success: false,
@@ -66,48 +66,63 @@ export const allBookings = async (req, res) => {
 }
 
 export const addProperty = async (req, res) => {
-  try{
+  try {
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: "No file uploaded"
+        message: "No image uploaded",
       });
     }
 
     const {
-      propertyName, propertyID, location, area, price, 
-      description, amenities, features 
+      propertyName,
+      propertyID,
+      location,
+      area,
+      price,
+      description,
+      amenities,
+      features,
     } = req.body;
 
+    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
     const property = await Property.create({
-      propertyName, propertyID, location, area, price,
-      description, amenities, features
+      propertyName,
+      propertyID,
+      location,
+      area,
+      price,
+      description,
+      amenities,
+      features,
+      image: imageUrl, // ✅ store image URL, not just filename
     });
 
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
-      message: 'property added',
-      data: property
+      message: "Property added successfully",
+      data: property,
     });
-  }
-  catch(err) {
-    console.log(`error in adding property - ${err}`);
-    return res.status(500).json({
+  } catch (error) {
+    console.error("Error adding property:", error);
+    res.status(500).json({
       success: false,
-      message: 'Internal server error'
+      message: "Internal server error",
     });
   }
-}
+};
+
 
 export const editProperty = async (req, res) => {
   const id = req.params.id;
-  try{
-    const { 
-      propertyName, location, area, price, 
+  try {
+    const {
+      propertyName, location, area, price,
       description, amenities
     } = req.body;
 
-    const property = await Property.findOneAndUpdate({ propertyID: id }, 
+    const property = await Property.findOneAndUpdate({ propertyID: id },
       { propertyName, location, area, price, description, amenities }
     );
 
@@ -117,7 +132,7 @@ export const editProperty = async (req, res) => {
       property
     });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in editing property - ${err}`);
     return res.status(500).json({
       success: false,
@@ -128,7 +143,7 @@ export const editProperty = async (req, res) => {
 
 export const deleteProperty = async (req, res) => {
   const id = req.params.id;
-  try{
+  try {
     const property = await Property.findOneAndDelete({ propertyID: id });
 
     return res.status(200).json({
@@ -137,7 +152,7 @@ export const deleteProperty = async (req, res) => {
       property
     });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in deleting property - ${err}`);
     return res.status(500).json({
       success: false,
@@ -148,7 +163,7 @@ export const deleteProperty = async (req, res) => {
 
 export const changeBookingStatus = async (req, res) => {
   const id = req.params.id;
-  try{
+  try {
     const booking = await Booking.findOneAndUpdate({ propertyID: id }, { status: 'confirmed' });
 
     return res.status(200).json({
@@ -157,7 +172,7 @@ export const changeBookingStatus = async (req, res) => {
       booking
     });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in changing booking status - ${err}`);
     return res.status(500).json({
       success: false,
@@ -167,14 +182,14 @@ export const changeBookingStatus = async (req, res) => {
 }
 
 export const adminLogout = async (req, res) => {
-  try{
+  try {
     return res.clearCookie('token')
-    .json({
-      success: true,
-      message: 'admin logout'
-    });
+      .json({
+        success: true,
+        message: 'admin logout'
+      });
   }
-  catch(err) {
+  catch (err) {
     console.log(`error in logout admin - ${err}`);
     return res.status(500).json({
       success: false,

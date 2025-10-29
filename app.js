@@ -1,7 +1,8 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import path from 'path'
+import path from 'path';
+import { fileURLToPath } from 'url'
 
 import connectDatabase from './config/db.config.js';
 import bookingRoute from './routes/booking.route.js';
@@ -12,9 +13,13 @@ import Property from './models/property.model.js';
 const app = express();
 const port = process.env.PORT || 4040;
 
+// Required only if you use ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 connectDatabase();
 
-// app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({
   origin: 'http://localhost:4040',
