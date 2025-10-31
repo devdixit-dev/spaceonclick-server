@@ -13,13 +13,23 @@ import Property from './models/property.model.js';
 const app = express();
 const port = process.env.PORT || 4040;
 
-// Required only if you use ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// // Required only if you use ES Modules
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 connectDatabase();
 
+import express from "express";
+import path from "path";
+
+// const app = express();
+const __dirname = path.resolve();
+
+// Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({
   origin: 'http://localhost:4040',

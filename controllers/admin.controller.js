@@ -67,10 +67,11 @@ export const allBookings = async (req, res) => {
 
 export const addProperty = async (req, res) => {
   try {
-    if (!req.file) {
+    // Check if images exist
+    if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "No image uploaded",
+        message: "No images uploaded",
       });
     }
 
@@ -85,8 +86,17 @@ export const addProperty = async (req, res) => {
       features,
     } = req.body;
 
-    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    // Convert amenities string to array (if frontend sends comma-separated)
+    const amenitiesArray = amenities
+      ? amenities.split(",").map((a) => a.trim())
+      : [];
 
+    // Build image URLs to access directly via browser
+    const imageUrls = req.files.map(
+      (file) => `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
+    );
+
+    // Create new property in DB
     const property = await Property.create({
       propertyName,
       propertyID,
@@ -94,9 +104,9 @@ export const addProperty = async (req, res) => {
       area,
       price,
       description,
-      amenities,
+      amenities: amenitiesArray,
       features,
-      image: imageUrl, // ✅ store image URL, not just filename
+      images: imageUrls, // ✅ multiple image URLs stored
     });
 
     res.status(201).json({
