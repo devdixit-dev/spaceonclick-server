@@ -41,7 +41,7 @@ export const adminLogin = (req, res) => {
 
 export const allBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().populate('propertyID')
+    const bookings = await Booking.find().populate('propertyID', 'propertyName')
 
     if (!bookings) {
       return res.status(404).json({
@@ -49,6 +49,8 @@ export const allBookings = async (req, res) => {
         message: 'Booking not found or removed already'
       });
     }
+
+    console.log(bookings);
 
     return res.status(200).json({
       success: true,
@@ -122,7 +124,6 @@ export const addProperty = async (req, res) => {
     });
   }
 };
-
 
 export const editProperty = async (req, res) => {
   const id = req.params.id;
