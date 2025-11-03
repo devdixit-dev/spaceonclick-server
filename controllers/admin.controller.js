@@ -155,12 +155,11 @@ export const editProperty = async (req, res) => {
 export const deleteProperty = async (req, res) => {
   const id = req.params.id;
   try {
-    const property = await Property.findOneAndDelete({ propertyID: id });
+    await Property.findOneAndDelete({ propertyID: id });
 
     return res.status(200).json({
       success: true,
-      message: 'property deleted',
-      property
+      message: 'property deleted'
     });
   }
   catch (err) {
