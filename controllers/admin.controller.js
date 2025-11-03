@@ -41,7 +41,7 @@ export const adminLogin = (req, res) => {
 
 export const allBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().populate('propertyID', 'propertyName')
+    const bookings = await Booking.find().populate('propertyID', 'propertyName propertyID')
 
     if (!bookings) {
       return res.status(404).json({
@@ -174,12 +174,11 @@ export const deleteProperty = async (req, res) => {
 export const changeBookingStatus = async (req, res) => {
   const id = req.params.id;
   try {
-    const booking = await Booking.findOneAndUpdate({ propertyID: id }, { status: 'confirmed' });
+    await Booking.findByIdAndUpdate(id, { status: 'confirmed' });
 
     return res.status(200).json({
       success: true,
-      message: 'booking confirmed',
-      booking
+      message: 'booking confirmed'
     });
   }
   catch (err) {

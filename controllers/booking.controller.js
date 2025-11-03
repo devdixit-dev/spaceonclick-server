@@ -39,7 +39,7 @@ export const booking = async (request, response) => {
     }
 
     const bookingExist = await Booking.findOne({
-      propertyID: property.propertyID, date, time
+      propertyID: property._id, date, time
     });
 
     if (bookingExist) {
