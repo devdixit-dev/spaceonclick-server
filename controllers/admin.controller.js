@@ -8,14 +8,16 @@ export const adminLogin = (req, res) => {
     const matchEmail = email === process.env.ADMIN_EMAIL;
     const matchPass = password === process.env.ADMIN_PASS;
 
-    if (!matchEmail && !matchPass) {
+    console.log(process.env.ADMIN_EMAIL, process.env.ADMIN_PASS)
+
+    if (!matchEmail || !matchPass) {
       return res.status(401).json({
         success: false,
         message: 'Incorrect email or password'
       });
     }
 
-    const decodeJwt = jwt.sign(email, process.env.JWT_SEC, {
+    const decodeJwt = jwt.sign({ email }, process.env.JWT_SEC, {
       expiresIn: '30m'
     });
 
