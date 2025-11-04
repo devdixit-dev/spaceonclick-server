@@ -132,11 +132,11 @@ export const editProperty = async (req, res) => {
   try {
     const {
       propertyName, location, area, price,
-      description, amenities
+      description, amenities, isAvailable
     } = req.body;
 
     const property = await Property.findOneAndUpdate({ propertyID: id },
-      { propertyName, location, area, price, description, amenities }
+      { propertyName, location, area, price, description, amenities, isAvailable }
     );
 
     return res.status(200).json({
