@@ -104,5 +104,5 @@ This project is licensed under the **MIT License**.
 
 **Dev Dixit**  
 💼 Backend Developer | Node.js | Express | MongoDB  
-📧 your.email@example.com  
-🌐 [LinkedIn / Portfolio Link]  
+📧 devdixitsocial@gmail.com  
+🌐 Github: devdixit-dev
