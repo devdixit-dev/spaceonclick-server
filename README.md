@@ -36,7 +36,7 @@ spaceonclick-server/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/spaceonclick-server.git
+   git clone https://github.com/devdixit-dev/spaceonclick-server.git
    cd spaceonclick-server
    ```
 
